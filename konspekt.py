@@ -11,12 +11,13 @@
 # file = file.read()       # повністю зчитує вміст файла (в дужках можна вказати кількість байт для считування)
 # print(file)
 
-# file.close()             # файл потрібно завжди закривати !!!       
+# file.close()             # файл потрібно завжди закривати !!!      
+# file.closed 
 
 '''
 Алгоритм зчитування файлу частинами (chang)
 '''
-# file = open('text.txt', 'r')
+# file = open('text.txt', 'r') # по замовчуванню файл відкривається для читання 'r'
 
 # while True:
 #     text = file.read (5)
@@ -48,18 +49,67 @@
 Запис у файл
 '''
 # file = open('text.txt', 'a')
-# file.write('\nHello Ukraine\n')
+# file.write('\nHello Ukraine\n')                           # добавляння тексту
+# file. writelines(['First lines\n', 'Sekond lines\n'])     # добавляння списку рядків
 
 # file.close()
 
 '''
-Рух файла по тексту
+Запис у файл у визначене місце (5)
+'''
+# with open('text.txt', 'r+') as file:       # 'r+' - режим читання і записування на початок тексту
+#     file.seek(5)
+#     file.write('\nHello Ukraine\n')
+# file.close()
+
+'''
+Рух курсору по тексту
 '''
 # file = open('text.txt', 'r')
 # file.read(1)            # зчитує вказану кількіст байт
 # print(file.tell())      # виводить інформацію де знаходиться курсор
 # file.seek (6)           # поміщає курсор на вказану позицію (кількість байт) 
 # file.close()
+
+'''
+Переіменування назви файлу
+'''
+# import os
+
+# os.rename('asd.txt', 'text.txt')
+
+'''
+Переміщення файлу
+'''
+# import os
+
+# os.rename('text.txt', r'Home_wotk\text.txt') - якщо такий файл вже є то rename не спрацює
+
+## або
+
+# os.replace('text.txt', r'Home_wotk\asd.txt') - якщо такий файл вже є то replace його замінить
+
+'''
+Рекурсивний рух по папках (не дороблено)
+'''
+# import os
+
+# print(os.getcwd())
+
+# def walk(path, prev_list_dir):
+
+#     print(os.getcwd())
+
+#     os.chdir(path)
+
+#     list_dir = list(filter(os.path.isdir, os.listdir()))
+
+#     for el in list_dir:
+#         list_dir.remove(el)
+#         walk(fr'{path}\{el}', list_dir)
+
+# print(walk(r'D:\IT\GoIT\Modul_6\Home_work', []))
+
 
 '''
 Обхід вийнятків з метою закриття файлу
@@ -88,17 +138,54 @@
 #     file.write(b'Taras')                # при зчитуванні в режимі 'r' отримаємо рядок, в режимі 'rb' отримаємо байти 
 # file.close()
 
+# 'Taras'.encode()  - пертворює строку в байт рядок
 '''
 Кодування
 '''
-b_array = bytearray(b'asdzxc')    # масив байт
-print(b_array)
+# b_array = bytearray(b'asdzxc')    # масив байт
+# print(b_array)
 
-bytearray(b'asdzxc')              # переведення масив байта в строку (отримаєм порядковий новер згідно ASCII)
-print(list(b_array))              # з bytearray можна працювати як зі списком (по індексах)
+# bytearray(b'asdzxc')              # переведення масив байта в строку (отримаєм порядковий новер згідно ASCII)
+# print(list(b_array))              # з bytearray можна працювати як зі списком (по індексах)
 
+# ----- Код Цезара (кодування і розкодовування)-------
 
+# def encrypt(b_obj,key):              # перетворення в байт-масив   
+#     b_obj_array = bytearray(b_obj)
+#     for i, b in enumerate(b_obj_array):
+#         n = b + key
+#         if n > 255:
+#             n -= 255
+#         b_obj_array[i] = n
+#     return bytes(b_obj_array) 
 
+# def dekrypt(b_obj,key):              # функція декрипту
+#     b_obj_array = bytearray(b_obj)        
+#     for i, b in enumerate(b_obj_array):
+#         n = b - key
+#         if n < 0:
+#             n += 255
+#         b_obj_array[i] = n
+#     return bytes(b_obj_array) 
+
+# if __name__ == '__main__':
+    
+#     pwd = input('Enter your password: ')       # запис в файл
+#     pwd_bytrs = pwd.encode()
+#     encrypted_pwd = encrypt(pwd_bytrs, 200)
+
+#     with open ('password.txt', 'wb') as file:
+#         file.write(encrypted_pwd) 
+
+#     with open ('password.txt', 'rb') as file:
+#         encrypted_pwd = file.read()
+#         print(encrypted_pwd)
+
+#     print(dekrypt(encrypted_pwd, 200))
+
+'''
+--------------
+'''
 
 # file = open('test.txt', 'w', encoding='utf-8')
 # file.write('Hello Test\n')
@@ -269,13 +356,21 @@ print(list(b_array))              # з bytearray можна працювати �
 # print(archive)  # /Users/vova/PycharmProjects/GoIT19/lesson_6/archive_file_name.zip
 
 # shutil.unpack_archive(archive, 'Archive/Test/In')
-
-"""
-Робота з архівами
-"""
+'''
+Заархівовування
+'''
 # import shutil
-# print(shutil.get_archive_formats())
-# archive = shutil.make_archive('archive_file_name', 'zip', 'Hello')
-# print(archive)  # /Users/vova/PycharmProjects/GoIT19/lesson_6/archive_file_name.zip
 
-# shutil.unpack_archive(archive, 'Archive/Test/In')
+# shutil.make_archive('archive', 'zip', 'test/')
+# # 'archive' - назва файлу архіву
+# # 'zip' - тип архіву
+# # 'test/' - папка яку потрібно заархівувати
+'''
+Розархівовування
+'''
+# import shutil
+# shutil.unpack_archive('archive.zip', 'dir/')  # dir - назва директорії куди потрібно розархівувати
+# shutil.rmtree('dir/archives')                 # - видаляє непусту папку
+# shutil.move('archive', 'dir')                 # - переміщає файл 'archive' в папку 'dir'
+# shutil.copy('text.txt', 'dir/')               # - копіює файл 'text.txt' в папку 'dir'
+
