@@ -309,3 +309,78 @@ steve:oppjM13LL9e
 Вимоги:
 Використовуйте менеджер контексту для читання з файлу
 '''
+# def get_credentials_users(path):
+#     credentials_list = []
+#     with open(path, 'rb') as fh:
+#         for line in fh:
+#             fh_str = line.decode('utf-8').strip()
+#             credentials_list.append(fh_str)
+#         return credentials_list
+ 
+# print(get_credentials_users('username_password.bin'))
+
+''' № 12
+Функція get_credentials_users із попереднього завдання повертає нам список рядків username:password:
+['andry:uyro18890D', 'steve:oppjM13LL9e']
+Реалізуйте функцію encode_data_to_base64(data), яка приймає у параметрі data зазначений список, виконує кодування кожної пари username:password у формат Base64 та повертає список із закодованими парами username:password у вигляді:
+['YW5kcnk6dXlybzE4ODkwRA==', 'c3RldmU6b3Bwak0xM0xMOWU=']
+'''
+# import base64
+
+# def encode_data_to_base64(data):
+#     data_list = []
+#     for el in data:
+#         message_bytes = el.encode("utf-8")
+#         base64_bytes = base64.b64encode(message_bytes)
+#         base64_message = base64_bytes.decode("utf-8")
+#         data_list.append(base64_message)
+
+#     return data_list     
+
+# print(encode_data_to_base64(['andry:uyro18890D', 'steve:oppjM13LL9e']))
+
+''' № 13
+Реалізуйте функцію create_backup(path, file_name, employee_residence)
+Де:
+path — шлях до файлу
+file_name — ім'я файлу
+employee_residence — словник, у якому ключ — ім'я користувача, а значення — країна проживання. Вигляд: {'Michael': 'Canada', 'John':'USA', 'Liza': 'Australia'}
+Функція повинна працювати так:
+Створювати бінарний файл file_name за шляхом path
+Зберігати дані словника employee_residence у файл, де кожен новий рядок — це ключ значення через пробіл як "Michael Canada"
+Архівувати теку по шляху path за допомогою shutil
+Ім'я архіву має бути backup_folder.zip
+Функція має повернути рядок шляху до архіву backup_folder.zip
+Вимоги:
+запишіть вміст словника employee_residence у бінарний файл з ім'ям file_name у теку path за допомогою оператора with.
+використовуйте символ /, щоб розділити шлях для path та file_name
+вигляд рядка файлу — Michael Canada, в кінці кожного рядка додається перенесення рядка '\n'.
+при збереженні кожен рядок файлу кодується методом encode
+при записі рядків використовуємо лише метод write
+архів має бути у форматі zip з ім'ям 'backup_folder', створений за допомогою make_archive.
+'''
+# import shutil
+
+# def create_backup(path, file_name, employee_residence):
+#     with open(f"{path}/{file_name}", "wb") as file_withlist:
+#         for employee, residence in employee_residence.items(): 
+#             line = f"{employee} {residence}\n"
+#             file_withlist.write(line.encode())
+#         archive = shutil.make_archive("backup_folder", 'zip', path)
+#         return archive
+
+# print(create_backup('d:\IT\GoIT\Modul_6\Home_work_avto', 'employee_residence.bin',{'Michael': 'Canada', 'John':'USA', 'Liza': 'Australia'}))
+
+''' № 14
+Створіть функціонал для розпакування архіву.
+Зробіть import пакету shutil
+Створіть функцію unpack(archive_path, path_to_unpack), яка викликатиме метод пакета shutil unpack_archive та розпаковуватиме архів archive_path у місце path_to_unpack.
+Функція нічого не повертає.
+'''
+# import shutil
+
+# def unpack(archive_path, path_to_unpack):
+#     shutil.unpack_archive(archive_path, path_to_unpack)
+
+                    
+
